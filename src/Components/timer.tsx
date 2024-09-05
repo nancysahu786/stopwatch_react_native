@@ -1,27 +1,67 @@
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import { View,StyleSheet ,Text} from "react-native";
 import RoundButton from "../Button/RoundButton";
 import LapsTable from "../Lap/Laps";
 
 const TimerComponent = () => {
 
-    const Data = {
-        timer:123456789,
-        laps:[1234,2365,345,2386,4556]
+    interface statesTypes {
+        start:number,
+        now:any,
+        laps:any
     }
+
+    const Data = {
+  
+        start:0,
+        now:0,
+        laps:[]
+    }
+
+    const [state,setState] = useState<statesTypes>({
+        start:0,
+        now:0,
+        laps:[]
+    }
+        
+    )
     
     const ButtonsRow = ({children}:any) => {
         return <View style={style.buttonRow}>{children}</View>
     }
+
+    let timer:any = state.now - state.start;
+
+    const Start = ()=>{
+        console.log("timer",timer);
+        const now = new Date().getTime();
+        setState({
+            start:now,
+            now,
+            laps:[0]
+        })
+        timer = setInterval(() => {
+            setState(prevState => ({
+                ...prevState,
+                now: new Date().getTime()
+            }));
+        }, 100);
+
+        console.log("timer",timer);
+        
+    }
+    const Reset = ()=>{
+        
+    }
     return(
         <View style={style.container}>
-            <Timer  interval={Data.timer} style={style.timer}/>
+            <Timer  interval={timer} style={style.timer}/>
             <ButtonsRow>
-            <RoundButton title="Reset" color="#FFFFFF" background="#3D3D3D"/>
-            <RoundButton title="Start" color="#50D167" background="#1B361F"/>
+            <RoundButton title="Reset" color="#FFFFFF" background="#3D3D3D" onPress={() => Reset} disabled={false}/>
+            <RoundButton title="Start" color="#50D167" background="#1B361F" onPress={() => Start} disabled={false}/>
             </ButtonsRow>
-            <LapsTable laps={Data.laps}/>
+            <LapsTable laps={state.laps}/>
         </View>
     );
 }

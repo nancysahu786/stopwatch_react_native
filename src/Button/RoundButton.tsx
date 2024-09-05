@@ -5,11 +5,16 @@ import { View,Text,StyleSheet, TouchableOpacity } from "react-native";
 interface buttonDataType{
     title:string,
     color:string,
-    background:string
+    background:string,
+    onPress:()=>{},
+    disabled:boolean
 }
-const RoundButton = ({title,color,background}:buttonDataType)=>{
+const RoundButton = ({title,color,background,onPress,disabled}:buttonDataType)=>{
     return (
-  <TouchableOpacity style={[style.button,{backgroundColor:background}]}>
+  <TouchableOpacity 
+  onPress={()=> !disabled && onPress()}
+  style={[style.button,{backgroundColor:background}]}
+  activeOpacity={disabled? 0.1: 0.7}>
     <View style={style.buttonBorder}>
     <Text style={[style.buttonTitle,{color}]}>{title}</Text>
     </View>
