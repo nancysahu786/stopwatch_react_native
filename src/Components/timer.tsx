@@ -49,11 +49,18 @@ const TimerComponent = () => {
         }, 100);
 
         console.log("timer",timer);
+        timer = setInterval(() => {
+            setState(prevState => ({
+                ...prevState,
+                now: new Date().getTime()
+            }));
+        }, 100);
         
     }
     const Reset = ()=>{
-        
+        const now = new Date().getTime();
     }
+    
     return(
         <View style={style.container}>
             <Timer  interval={timer} style={style.timer}/>
