@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View,StyleSheet ,Text} from "react-native";
 import RoundButton from "../Button/RoundButton";
 import LapsTable from "../Lap/Laps";
@@ -7,6 +7,7 @@ import LapsTable from "../Lap/Laps";
 const TimerComponent = () => {
 
     interface statesTypes {
+        timer:string,
         start:number,
         now:any,
         laps:any
@@ -20,6 +21,7 @@ const TimerComponent = () => {
     }
 
     const [state,setState] = useState<statesTypes>({
+        timer:'12345',
         start:0,
         now:0,
         laps:[]
@@ -37,6 +39,7 @@ const TimerComponent = () => {
         console.log("timer",timer);
         const now = new Date().getTime();
         setState({
+            timer:'0',
             start:now,
             now,
             laps:[0]
@@ -60,10 +63,19 @@ const TimerComponent = () => {
     const Reset = ()=>{
         const now = new Date().getTime();
     }
+
+    useEffect(()=>{
+        setState({
+            timer:'123456',
+            start:0,
+            now:0,
+            laps:[]
+        })
+    },[])
     
     return(
         <View style={style.container}>
-            <Timer  interval={timer} style={style.timer}/>
+            <Timer  interval={state.timer} style={style.timer}/>
             <ButtonsRow>
             <RoundButton title="Reset" color="#FFFFFF" background="#3D3D3D" onPress={() => Reset} disabled={false}/>
             <RoundButton title="Start" color="#50D167" background="#1B361F" onPress={() => Start} disabled={false}/>
